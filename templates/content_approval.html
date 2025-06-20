@@ -1,0 +1,72 @@
+{% extends 'main.html' %} {% block content %}
+<script language="JavaScript">
+  function toggle(source) {
+    checkboxes = document.getElementsByName("checkBox");
+    for (var i = 0, n = checkboxes.length; i < n; i++) {
+      checkboxes[i].checked = source.checked;
+    }
+  }
+</script>
+<link rel="stylesheet" href="static/css/dist/content_approval.css" />
+<div class="mx-32 pt-20 pb-10">
+  <form action="" method="post" class="space-y-4">
+    <div class=""><label class="text-xl font-medium text-gray-900">Files Pending for Approval</label></div>
+    <div class="rounded-md shadow-md" id="uploaded-content">
+      <!-- title -->
+      {% csrf_token %}
+      <ul class="flex p-3 bg-[#FF5F1F] list-style-none">
+        <li class="ml-2">
+          <input name="allSelected" onClick="toggle(this)" value="true" id="default-checkbox" type="checkbox" class="w-4 h-4 text-blue-600 bg-gray-100 rounded border-gray-300 focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600" />
+        </li>
+        <li class="ml-4"><label for="default-checkbox" class="text-sm font-medium text-gray-900">Course Code</label></li>
+        <li class="ml-28"><label for="default-checkbox" class="text-sm font-medium text-gray-900">Contributor</label></li>
+        <li class="ml-32"><label for="default-checkbox" class="text-sm font-medium text-gray-900">Uploaded File</label></li>
+        <li class="ml-28"><label for="default-checkbox" class="text-sm font-medium text-gray-900">Description</label></li>
+      </ul>
+
+      <!-- contents -->
+      {% for i in page_obj %}
+
+      <ul class="flex p-3 list-style-none">
+        <li class="ml-2"><input name="checkBox" value="{{i.id}}" id="default-checkbox" type="checkbox" class="w-4 h-4 text-blue-600 bg-gray-100 rounded border-gray-300 focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600" /></li>
+        <li class="ml-4 mr-6 w-44"><label for="default-checkbox" class="text-sm font-medium">{{i.course_code}}</label></li>
+        <li class="w-44 mr-6"><label for="default-checkbox" class="text-sm font-medium">{{i.user.first_name}} {{i.user.last_name}}</label></li>
+        <li class="w-40 mr-10">
+          <a target="_blank" class="font-medium text-blue-600 dark:text-blue-500 hover:underline" href="static/files/{{i.file}}">
+            <label class="text-sm font-medium">{{i.file}}</label>
+          </a>
+        </li>
+        <li class="w-72"><label for="default-checkbox" class="text-sm font-medium">{{i.description}}</label></li>
+      </ul>
+
+      {% endfor %}
+    </div>
+    <div class="flex">
+      <button type="submit" name="btn" value="approve" class="bg-[#f78548] hover:bg-[#FF5F1F] text-sm p-1 font-normal shadow rounded-tl-xl rounded-br-xl">Approve Selected</button>
+      <button type="submit" name="btn" value="delete" class="ml-6 bg-[#f78548] hover:bg-[#FF5F1F] text-sm p-1 font-normal shadow rounded-tl-xl rounded-br-xl">&nbsp;Delete Selected</button>
+
+      <ul class="flex my-1 ml-64 space-x-2">
+        {% if page_obj.has_previous %}
+        <li class="bg-[#f78548] hover:bg-[#FF5F1F] rounded-tl-xl rounded-br-xl p-1">
+          <a href="?page=1">&laquo; first</a>
+        </li>
+        <li class="bg-[#f78548] hover:bg-[#FF5F1F] rounded-tl-xl rounded-br-xl p-1">
+          <a href="?page={{ page_obj.previous_page_number }}">previous</a>
+        </li>
+        {% endif %}
+
+        <li>Page {{ page_obj.number }} of {{ page_obj.paginator.num_pages }}.</li>
+
+        {% if page_obj.has_next %}
+        <li class="bg-[#f78548] hover:bg-[#FF5F1F] rounded-tl-xl rounded-br-xl p-1">
+          <a href="?page={{ page_obj.next_page_number }}">next</a>
+        </li>
+        <li class="bg-[#f78548] hover:bg-[#FF5F1F] rounded-tl-xl rounded-br-xl p-1">
+          <a href="?page={{ page_obj.paginator.num_pages }}">last &raquo;</a>
+        </li>
+        {% endif %}
+      </ul>
+    </div>
+  </form>
+</div>
+{% endblock content %}

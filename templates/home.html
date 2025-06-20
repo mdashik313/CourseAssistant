@@ -1,0 +1,56 @@
+{% extends 'main.html' %} {% load static %}
+<!-- START BLOCK -->
+{% block content %}
+<!-- Modal for New Content -->
+<link rel="stylesheet" href="{% static '/css/dist/modal.css' %}" />
+<div class="trimester-container">
+  <div class="trimester-control">
+    <center>
+      <button onclick="toggleVisibility('add-content-popup')" class="mt-6 mb-2 w-1/5 rounded-full bg-skin-primary py-2 px-2 font-bold text-white hover:bg-skin-primaryMuted hover:transition hover:duration-300">Add Content</button>
+    </center>
+  </div>
+
+  <div id="add-content-popup" class="hide">
+    <div class="modal-content">
+      <button onclick="toggleVisibility('add-content-popup')" class="close">Close</button>
+      <form action="{% url 'home' %}" method="POST" enctype="multipart/form-data">
+        {% csrf_token %}
+        <label for="title">Title</label>
+        <input type="text" name="title" placeholder="Title" />
+        <label for="course_code">Course Code</label>
+        <input type="text" name="course_code" placeholder="Course Code" />
+        <label for="description">Description</label>
+        <textarea class="w-full rounded-lg border-[1.5px] border-gray-300 py-3 px-5 font-medium placeholder-gray-300 outline-none transition focus:border-skin-primary active:border-skin-primary disabled:cursor-default disabled:bg-[#F5F7FD]" name="description" placeholder="Description"></textarea>
+        <label for="thumbnail">Thumbnail</label>
+        <input
+          class="w-full cursor-pointer rounded-lg border-[1.5px] border-[#E0E0E0] font-medium text-[#637381] placeholder-[#637381] transition file:mr-5 file:border-collapse file:cursor-pointer file:border-0 file:border-r file:border-solid file:border-[#E0E0E0] file:bg-[#F5F7FD] file:py-3 file:px-5 file:text-[#637381] file:hover:bg-[#3056D3] file:hover:bg-opacity-10 focus:border-[#3056D3] active:border-[#3056D3] disabled:cursor-default disabled:bg-[#F5F7FD]"
+          type="file"
+          name="thumbnail"
+        />
+        <label for="file">File</label>
+        <input
+          class="w-full cursor-pointer rounded-lg border-[1.5px] border-[#E0E0E0] font-medium text-[#637381] placeholder-[#637381] transition file:mr-5 file:border-collapse file:cursor-pointer file:border-0 file:border-r file:border-solid file:border-[#E0E0E0] file:bg-[#F5F7FD] file:py-3 file:px-5 file:text-[#637381] file:hover:bg-[#3056D3] file:hover:bg-opacity-10 focus:border-[#3056D3] active:border-[#3056D3] disabled:cursor-default disabled:bg-[#F5F7FD]"
+          type="file"
+          name="file"
+        />
+        <input type="submit" name="add_content" value="Add" />
+      </form>
+    </div>
+  </div>
+</div>
+
+<!-- Loop -->
+<div class="p-4 min-h-screen bg-gradient-to-br">
+  <div class="grid lg:grid-cols-2 gap-2 sm:grid-cols-1 md:grid-cols-2">
+    {% for item, r, c in data %}
+    <!-- Include card.html -->
+    <div class="transition duration-300 hover:scale-[1.02]">
+      {% include 'components/content/card.html' with item_id=item.id item=item thumbnail=item.thumbnail.url course_code=item.course_code title=item.title profile_picture=item.user.profile_picture.url description=item.description comment_count=c date=item.start_date dislike=r.dislike like=r.like %}
+    </div>
+    <!-- End Loop -->
+    {% endfor %}
+  </div>
+</div>
+
+<!-- END BLOCK -->
+{% endblock content %}

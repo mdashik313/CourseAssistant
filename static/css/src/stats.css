@@ -1,0 +1,51 @@
+.post-container {
+  @apply min-h-screen bg-gray-200;
+}
+
+.post-card {
+  @apply mr-8 ml-8 mt-3 flex h-full rounded-3xl bg-white p-8 shadow-md hover:bg-amber-50 hover:transition hover:duration-300 md:p-0;
+}
+
+.post-img {
+  @apply mx-0 h-24 w-24 rounded-full shadow-md md:h-auto md:w-48 md:rounded-3xl;
+}
+
+.post-text-container {
+  @apply space-y-4 pt-6 text-center md:p-8 md:text-left;
+}
+
+.post-text-style {
+  @apply text-lg font-medium;
+}
+
+.post-title-style {
+  @apply text-2xl font-semibold text-emerald-600;
+}
+
+.post-author {
+  @apply font-medium text-gray-700 dark:text-gray-500;
+}
+
+.post-tag {
+  @apply mt-1.5 inline-block rounded-2xl bg-gray-200 px-1.5 py-1 font-medium font-semibold text-gray-700;
+}
+
+.post-btn-container {
+  @apply mt-auto ml-auto;
+}
+
+.post-dl-btn {
+  @apply rounded border-b-4 border-blue-700 bg-blue-500 py-2 px-4 font-bold text-white hover:border-blue-500 hover:bg-blue-400 hover:transition hover:duration-300;
+}
+
+.post-cm-btn {
+  @apply rounded border-b-4 border-emerald-700 bg-emerald-500 py-2 px-4 font-bold text-white hover:border-emerald-500 hover:bg-emerald-400 hover:transition hover:duration-300;
+}
+
+.new-post-btn {
+  @apply m-6 w-1/5 rounded-full bg-skin-primary py-2 px-4 font-bold text-white hover:bg-skin-primaryMuted hover:transition hover:duration-300;
+}
+
+.move-center {
+  @apply relative content-center items-center justify-center;
+}

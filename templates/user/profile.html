@@ -1,0 +1,56 @@
+{% extends 'main.html' %}
+<!-- START BLOCK -->
+{% block content %}
+
+<style>
+  .msg-btn {
+    background-color: rgb(13 148 136); /* Green */
+    color: white;
+    padding: 15px 32px;
+    text-align: center;
+    font-size: 16px;
+    cursor: pointer;
+    border-radius: 25px;
+    /* natural shadow */
+    box-shadow: 0 2px 4px 0 rgba(0, 0, 0, 0.2), 0 25px 50px 0 rgba(0, 0, 0, 0.1);
+  }
+
+  .msg-btn:hover {
+    opacity: 0.8;
+  }
+</style>
+
+<div class="flex flex-col bg-skin-sidebar w-auto m-4 rounded-3xl shadow-md">
+  <!-- Cover Photo -->
+  <div class="flex flex-col items-center">
+    <img class="rounded-t-3xl w-full max-h-96" src="https://external-content.duckduckgo.com/iu/?u=http%3A%2F%2Fthewowstyle.com%2Fwp-content%2Fuploads%2F2015%2F01%2Ffacebook-cover-balloons-sunset-view-facebook-cover.jpg" alt="Cover Photo" />
+  </div>
+  <!-- Profile Picture on Right Side -->
+  <div class="flex flex-row justify-between mr-6">
+    <div class="flex w-full flex-row content-end justify-end space-x-5 p-6">
+      {% if user == request.user %}
+      <a href="{% url 'change_profile_picture' %}"><div class="msg-btn">Change Profile Picture</div></a>
+      <a href="{% url 'edit_profile' %}"><div class="msg-btn">Edit Profile</div></a>
+      {% else %}
+      <a href="mailto:{{user.email}}"><div class="msg-btn">Email</div></a>
+      <a href="{% url 'private_chat' pk=user.id %}"><div class="msg-btn">Message</div></a>
+      {% endif %}
+    </div>
+    <div class="flex flex-col items-center content-center justify-center -mt-32 p-12">
+      <img class="rounded-full w-52 h-auto border-4 border-skin-base" src="{{user.profile_picture.url}}" alt="Profile Picture" />
+      <h1 class="text-2xl lg:text-3xl font-bold text-skin-base">{{user.first_name}} {{user.last_name}}</h1>
+      <h3 class="font-semibold text-xl">{{user.username}}</h3>
+    </div>
+  </div>
+  <!-- Profile Information -->
+  <div class="flex flex-row justify-between lg:-mt-36">
+    <div class="flex flex-col pl-16 pr-16 pb-16">
+      <h3 class="font-semibold text-2xl">{{user.university.name}}</h3>
+      <h3 class="font-semibold text-2xl">{{user.department.name}}</h3>
+    </div>
+  </div>
+</div>
+
+<!-- END BLOCK -->
+
+{% endblock content %}

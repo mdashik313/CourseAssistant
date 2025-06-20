@@ -1,0 +1,28 @@
+.chartMenu {
+  width: 100vw;
+  height: 40px;
+  color: rgba(54, 162, 235, 1);
+}
+.chartCard {
+  width: 100vw;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.center {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.chartBox h1 {
+  font-size: 30px;
+  font-weight: 500;
+  color: rgba(54, 162, 235, 1);
+}
+.chartBox {
+  width: 450px;
+  padding: 20px;
+  border-radius: 20px;
+  border: solid 3px rgba(54, 162, 235, 1);
+  background: white;
+}

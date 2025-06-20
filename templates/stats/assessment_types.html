@@ -1,0 +1,61 @@
+{% extends 'main.html' %} {% load static %} {% block head %}
+<title>Assessment Types | Educational Progress</title>
+<link rel="stylesheet" href="{% static '/css/dist/modal.css' %}" />
+<link rel="stylesheet" href="{% static '/css/dist/stats.css' %}" />
+{% endblock head %} {% block content %}
+
+<!-- Modal for New Assessment Types -->
+<div class="trimester-container">
+  <div class="trimester-control">
+    <center>
+      <button onclick="toggleVisibility('add-assessment-type-popup')" class="new-post-btn">Add Assessment Types</button>
+    </center>
+  </div>
+
+  <div id="add-assessment-type-popup" class="hide">
+    <div class="modal-content">
+      <button onclick="toggleVisibility('add-assessment-type-popup')" class="close">Close</button>
+      <form action="{% url 'assessment-types' s_pk=semester c_pk=course %}" method="POST">
+        {% csrf_token %}
+        <input type="hidden" name="course_id" value="{{course}}" />
+        <input type="text" class="input-box" name="assessment_type_name" placeholder="Name" />
+        <input type="text" name="mark_percentage" placeholder="Percentage Marks" />
+        <input type="text" name="best_of" placeholder="Best Count" />
+        <input type="submit" name="add_assessment_type" value="Add" />
+      </form>
+    </div>
+  </div>
+</div>
+
+<!--PIE CHART START-->
+{% if chart.labels %} {% include 'components/graph/piechart.html' with data="{{chart}}" title="Mark Distributions" dataLabels="True" fontWight="bold" lastText="%" %} {% endif %}
+<!--PIE CHART END-->
+
+<!-- Assessment Types Card -->
+<div class="post-container">
+  <br />
+  {% if data %} {% for item in data %}
+  <div class="post-card">
+    <div class="post-text-container">
+      <div class="post-title-style">{{ item.name }}</div>
+      <span class="post-tag">{{ item.mark_percentage }}%</span>
+      {% comment %}
+      <div class="post-author"></div>
+      {% endcomment %}
+      <div>
+        <p class="post-text-style">Best {{ item.best_of }}</p>
+      </div>
+
+      <form action="{% url 'assessment-types' s_pk=semester c_pk=course %}" method="POST">
+        {% csrf_token %}
+        <input type="hidden" name="assessment_type_id" value="{{item.id}}" />
+        <!-- Delete -->
+        <input class="post-cm-btn" style="margin-left: 0.25rem" onclick="return confirm('Are you sure you want to delete this item?')" type="submit" name="delete_assessment_type" value="Delete" />
+      </form>
+    </div>
+  </div>
+  {% endfor %} {% else %}
+  <center><b>No data found...</b></center>
+  {% endif %}
+</div>
+{% endblock content %}

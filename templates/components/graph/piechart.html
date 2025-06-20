@@ -1,0 +1,65 @@
+{% load static %}
+<link rel="stylesheet" href="{% static '/css/dist/graph.css' %}" />
+
+<div class="chartCard">
+  <div class="chartBox" {% if chartSize%} style="width: {{chartSize}};" {%endif%}>
+    {% if title %}
+    <h1 class="center">{{title}}</h1>
+    {% endif %}
+    <canvas id="myChart"></canvas>
+  </div>
+</div>
+<script type="text/javascript" src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/chartjs-plugin-datalabels@2.0.0"></script>
+<script>
+  // setup
+  const data = {
+    labels: [{% for label in chart.labels%}'{{label}}',{% endfor %}],
+    datasets: [
+      {
+        label: "Marks",
+        data: [{% for data in chart.marks%}{{data}},{% endfor %}],
+        backgroundColor: ["rgba(255, 26, 104, 0.2)", "rgba(54, 162, 235, 0.2)", "rgba(255, 206, 86, 0.2)", "rgba(75, 192, 192, 0.2)", "rgba(153, 102, 255, 0.2)", "rgba(255, 159, 64, 0.2)", "rgba(0, 0, 0, 0.2)"],
+        borderColor: ["rgba(255, 26, 104, 1)", "rgba(54, 162, 235, 1)", "rgba(255, 206, 86, 1)", "rgba(75, 192, 192, 1)", "rgba(153, 102, 255, 1)", "rgba(255, 159, 64, 1)", "rgba(0, 0, 0, 1)"],
+        borderWidth: 1,
+      },
+    ],
+  };
+
+  // config
+  const config = {
+    type: "pie",
+    data,
+    options: {
+      plugins: {
+        datalabels: {
+          font: {
+            {% if fontWight %}
+            weight: "{{fontWight}}",
+            {% endif %}
+            {% if fontsize %}
+            size: {{fontsize}},
+            {% endif %}
+          },
+          // formatter with name and percentage
+          formatter: (value, ctx) => {
+            let sum = 0;
+            let dataArr = data.datasets[0].data;
+            dataArr.map((data) => {
+              sum += data;
+            });
+            let percentage = value;
+            {% if dataLabels %}
+            let name = ctx.chart.data.labels[ctx.dataIndex];
+            {% endif %}
+            return name + " " + percentage + {% if lastText %} "{{lastText}}" {% else %} "" {% endif %};
+          },
+        }
+      }
+    },
+    plugins: [ChartDataLabels],
+  };
+
+  // render init block
+  const myChart = new Chart(document.getElementById("myChart"), config);
+</script>

@@ -1,0 +1,7 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+#uploaded-content ul:not(:last-child){
+    border-bottom-width: 1px;
+  }

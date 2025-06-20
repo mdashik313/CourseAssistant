@@ -1,0 +1,69 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* Custom Class */
+.container {
+  @apply mx-auto w-full mt-8 mb-8;
+}
+
+h1 {
+  @apply text-center font-sans font-medium leading-tight text-5xl mt-0 mb-2 text-blue-600;
+}
+
+.container-box {
+  @apply p-10;
+}
+
+.shadow-class {
+  @apply bg-white shadow-md rounded border-blue-500;
+}
+
+.header {
+  @apply bg-slate-300 w-auto p-4 text-center font-sans font-medium leading-tight text-2xl text-gray-600;
+}
+
+/* divide screen with flex*/
+.flex-container {
+  @apply flex flex-wrap;
+}
+
+/* left side */
+.flex-item-left {
+  @apply w-1/2 p-4;
+}
+
+/* right side */
+.flex-item-right {
+  @apply w-1/2 p-4;
+}
+
+.container * input[type="checkbox"] {
+  @apply mt-2 h-6 w-6 rounded-full border-0 text-green-600 focus:ring-0;
+}
+
+.container * input[type="text"],
+input[type="email"],
+input[type="password"] {
+  @apply mt-2 h-10 w-full rounded-md border border-gray-400 px-4 py-2 focus:outline-none focus:ring-1 focus:ring-blue-600;
+}
+
+.container * input[type="submit"] {
+  @apply mt-8 h-14 w-full rounded-lg bg-blue-600 font-sans font-bold text-white hover:bg-blue-900;
+}
+
+.container * select {
+  @apply option-class input-login;
+}
+
+.container * label {
+  @apply text-gray-600 font-sans font-medium text-lg pl-2;
+}
+
+.option-class {
+  @apply block w-full appearance-none rounded border border-gray-200 bg-gray-200 py-3 px-4 pr-8 leading-tight text-gray-700 focus:border-gray-500 focus:bg-white focus:outline-none;
+}
+
+.input-login {
+  @apply mt-2 h-12 w-full rounded-md border border-gray-400 px-4 py-2 focus:outline-none focus:ring-1 focus:ring-blue-600;
+}

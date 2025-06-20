@@ -1,0 +1,105 @@
+{% extends 'main.html' %} {% load static %} {% block head %}
+<title>Semester | Educational Progress</title>
+<link rel="stylesheet" href="{% static '/css/dist/modal.css' %}" />
+<link rel="stylesheet" href="{% static '/css/dist/stats.css' %}" />
+{% endblock head %} {% block content %}
+<!-- Modal for New Semester -->
+<center>
+  <button type="submit" onclick="toggleVisibility('open_semester_creator_window')" class="new-post-btn">
+    <b>Create New Semester</b>
+  </button>
+</center>
+
+<div id="open_semester_creator_window" class="hide">
+  <div class="modal-content">
+    <a href="#" class="close" onclick="toggleVisibility('open_semester_creator_window')">Close</a>
+    <form action="{% url 'stats' %}" method="POST">
+      {% csrf_token %}
+      <label for="is_semester_running"> Name </label>
+      <input type="text" name="semester_name" placeholder="Enter Semester Title" />
+      <span class="checkbox-container">
+        <label id="is_semester_running_label" class="checkbox-label" for="is_semester_running">
+          <input type="checkbox" onchange="check_is_running()" id="is_semester_running" name="is_semester_running" />
+          Currently Running
+        </label>
+        <label style="display: none" id="auto_add_to_group_label" class="checkbox-label" for="auto_add_to_group">
+          <input id="auto_add_to_group" type="checkbox" name="auto_add_to_group" />
+          Auto Add to Group
+        </label>
+      </span>
+      <script>
+        function check_is_running() {
+          // hide auto_add_to_group_label when is_semester_running is not checked
+          if (document.getElementById("is_semester_running").checked) {
+            document.getElementById("auto_add_to_group_label").style.display = "block";
+          } else {
+            document.getElementById("auto_add_to_group_label").style.display = "none";
+            document.getElementById("auto_add_to_group").checked = false;
+          }
+        }
+      </script>
+
+      <label for="semester_start_date">Start Date </label>
+      <input type="date" name="semester_start_date" />
+
+      <label for="semester_end_date">End Date </label>
+      <input type="date" name="semester_end_date" />
+
+      <input type="submit" name="add_semester" value="Add" />
+    </form>
+  </div>
+</div>
+
+<!-- Graph START -->
+{% if chart.labels %} {% include 'components/graph/barchart.html' with data="{{chart}}" chartSize="700px" %} {% endif %}
+<!-- Graph END -->
+
+<!-- Semester Card -->
+<div class="post-container">
+  <br />
+  {% if data %} {% for val, gpa, credit, wt in data %}
+  <!-- Add What If Modal -->
+  <div id="open_what_if_creator_window_{{val.id}}" class="hide">
+    <div class="modal-content">
+      <a href="{% url 'stats' %}" class="close" onclick="toggleVisibility('open_what_if_creator_window{{val.id}}')">Close</a>
+      <form method="post">
+        {% csrf_token %}
+        <input type="hidden" name="semester_id" value="{{val.id}}" />
+        <label for="what_if_gpa"> GPA </label>
+        <input type="text" name="what_if_gpa" placeholder="Enter GPA" />
+        <br />
+        <input type="submit" name="add_what_if" value="Add What If" />
+      </form>
+    </div>
+  </div>
+
+  <div class="post-card">
+    <div class="post-text-container">
+      <a href="{% url 'courses' pk=val.id %}">
+        <div class="post-title-style">{{ val.name}}</div>
+        <span class="post-tag">{{ val.start_date }} - {{ val.end_date }}</span>
+        <br />
+        <br />
+        <div class="post-author">Expected GPA: {{gpa.expected}}/4.00</div>
+        <div class="post-author">Total Credit: {{credit}}</div>
+        <div>
+          <p class="post-text-style">Actual GPA: {{gpa.obtained}}/4.00</p>
+        </div>
+        {% comment %} Edit / Delete Semester {% endcomment %}
+      </a>
+      <form action="{% url 'stats' %}" method="POST">
+        {% csrf_token %}
+        <input type="hidden" name="semester_id" value="{{ val.id }}" />
+        <input class="post-cm-btn" onclick="toggleVisibility('edit-post-popup')" type="submit" value="Edit" />
+        <input class="post-cm-btn" style="margin-left: 0.25rem" onclick="return confirm('Are you sure you want to delete this item?')" type="submit" name="delete_semester" value="Delete" />
+        <input class="post-cm-btn" {% if wt %} value="What If GPA {{wt.gpa}}" type="submit" name="delete_what_if" {% else %} value="Add What If" type="button" onclick="toggleVisibility('open_what_if_creator_window_{{val.id}}')" {% endif %} />
+      </form>
+    </div>
+  </div>
+  {% endfor %} {% else %}
+  <center><b>No data found...</b></center>
+  {% endif %}
+  <br />
+</div>
+
+{% endblock content %}

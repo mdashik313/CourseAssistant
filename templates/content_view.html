@@ -1,0 +1,84 @@
+{% extends 'main.html' %}
+<!-- START BLOCK -->
+{% block content %}
+<!-- Loop -->
+
+<style>
+  #mention {
+    color: #81965c;
+  }
+  #mention:hover {
+    color: #4caf50;
+  }
+</style>
+
+<!-- Post View -->
+<div class="flex flex-col bg-skin-sidebar w-auto m-4 min-h-screen rounded-3xl p-10 shadow-md">
+  <div class="flex flex-row border-b-[1px] shadow-sm pb-6 border-gray-300">
+    <!-- Profile Picture -->
+    <img class="rounded-full h-32 w-32" src="{{content.user.profile_picture.url}}" alt="Profile Picture" />
+    <div>
+      <!-- Post Title -->
+      <div class="flex flex-row space-x-4 p-3">
+        <div class="p-3 bg-gray-200 rounded-3xl font-semibold text-teal-900 text-lg">{{content.course_code}}</div>
+        <div class="font-semibold text-teal-900 text-4xl">{{content.title}}</div>
+      </div>
+      <!-- Author Info -->
+      <a href="{% url 'profile' pk=content.user.id %}">
+        <div class="hover:text-skin-primary pl-4 font-semibold text-teal-900 text-xl">{{content.user.first_name}} {{content.user.last_name}} <span class="font-light"> [{{content.user.username}}] </span></div>
+      </a>
+    </div>
+  </div>
+  <!-- Post Content -->
+  <!-- Post Text -->
+  <div class="min-h-[30rem] p-10 text-xl text-justify border-b-[1px] shadow-sm pb-6 border-gray-300">{{content.description}}</div>
+  <!-- Post Attachment -->
+  <div class="p-10 text-xl text-justify">
+    <a href="{{content.file.url}}"> <span class="hover:text-red-400"> {{content.file.name}}</span></a>
+  </div>
+</div>
+
+<!-- Comments Block -->
+<div class="flex flex-col w-auto m-4 p-10 mt-10 items-center content-center text-4xl font-bold text-slate-600">Comments</div>
+
+{%for c in comments %}
+<div class="flex flex-col bg-skin-sidebar w-auto m-4 rounded-3xl p-6 shadow-md">
+  <div class="flex flex-row border-b-[1px] pb-4 border-gray-300 content-center items-center">
+    <!-- Profile Picture -->
+    <img class="rounded-full h-24 w-24" src="{{c.user.profile_picture.url}}" alt="Profile Picture" />
+    <div>
+      <!-- Author Info -->
+      <a href="#">
+        <div class="hover:text-skin-primary pl-4 font-semibold text-teal-900 text-xl">{{c.user.first_name}} {{c.user.last_name}} <span class="font-light"> [{{c.user.username}}] </span></div>
+      </a>
+    </div>
+  </div>
+  <!-- Post Content -->
+  <!-- Post Text -->
+  <div id="comment-{{c.id}}" class="p-6 pb-10 text-xl text-justify border-b-[1px]">{{c.text|safe}}</div>
+  <div class="p-6 text-xl flex content-end items-end justify-end">
+    <form action="{% url 'content_view' pk=content.id %}" method="POST">
+      {% csrf_token %}
+      <input type="hidden" name="comment_id" value="{{c.id}}" />
+      <input class="cursor-pointer text-skin-primary hover:text-skin-primaryMuted" type="submit" name="add_reply" value="Reply" />
+    </form>
+  </div>
+</div>
+{% endfor %}
+
+<!-- Comment Box -->
+<div class="bg-skin-sidebar w-auto m-4 rounded-3xl p-10 shadow-md">
+  <form class="flex flex-col w-full items-center content-center" action="{% url 'content_view' pk=content.id %}" method="POST">
+    {% csrf_token %}
+    <label for="" class="mb-3 text-lg font-semibold text-gray-600">Write a comment</label>
+    <textarea
+      rows="5"
+      name="comment"
+      placeholder="Write your comment here..."
+      class="w-full rounded-lg border-[1.5px] border-gray-300 py-3 px-5 font-medium text-body-color placeholder-body-color outline-none transition focus:border-skin-primary active:border-skin-primary disabled:cursor-default disabled:bg-[#F5F7FD]"
+    ></textarea>
+    <input type="submit" value="Comment" name="add_comment" class="w-1/4 mt-5 rounded-full bg-skin-primary py-4 px-10 text-center text-base font-normal text-white hover:bg-skin-primaryMuted lg:px-8 xl:px-10" />
+  </form>
+</div>
+<!-- END BLOCK -->
+{% endblock content %}

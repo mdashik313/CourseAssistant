@@ -1,0 +1,146 @@
+.c{
+    width:80%;
+    margin: auto;
+       
+}
+
+.user {
+    width: 100%;
+    position: static;
+    margin:auto;
+    height: 25vh;
+    background-color:#06CEDB ;
+    text-align: center;
+    flex-wrap: auto;
+
+    
+    
+    
+}
+.user img {
+    border-radius: 50%;
+    width: 150px;
+    height: 150px;
+    margin-left: 73%;
+    margin-top: 45px;
+  
+ }
+
+
+hr.new1 {
+    border-top: 1px solid #6C97EB;
+    width:auto;
+    }
+
+.box input{
+
+    width: 250px;
+    border: 0px;
+    margin: 10px;
+    margin-top: 5px;
+    margin-left: 60px;
+    margin-bottom: 2px;
+    padding: 8px;
+    background-color:#F2F0F0;
+    font-size: 15px;
+   }
+ .container{
+    text-align:left;
+    position:relative;
+    top: 40%;
+    left:74%;
+}
+.btn{
+
+    border: none;
+    background: #7FD8EC;
+    padding: 7px 10px;
+    font-size: 11px;
+    cursor: pointer;
+    margin: 5px;
+    margin-top:18px;
+  
+    border-radius: 5px;
+}
+.btn:hover{
+    background-color:#19c4ea;
+}
+
+ 
+ .icon-box{
+    letter-spacing: 10px;
+    font-size: 20px;
+    line-height: .5%;
+  }
+
+  .last{
+    text-align:center;
+    margin: auto;
+    top: 105%;
+    left:45%;
+    padding-bottom: 50px;
+}
+.btn0{
+    border:none;
+    font-weight: bold;
+    padding: 6px 10px;
+    font-size: 11px;
+    cursor: pointer;
+    margin-top: 10px;
+    border-radius: 1px;
+    
+ }
+.btn0:hover{
+    background-color:#19c4ea;
+}
+
+
+
+
+.flex-container{
+           
+    width: 90%;
+    background-color: white;
+    display: flex;
+    flex-wrap: wrap; 
+    margin:auto;
+    justify-content: center; 
+    align-items: center; 
+    height: auto;
+}
+
+.flex-container > div {
+    background-color: white;
+    margin: 15px;
+    padding: 0px;
+    border-bottom: 1px solid #7093F0;
+    border-top: 1px solid #7093F0;
+    width: 340px; 
+    text-align: center;
+    height: 260px;
+    
+    
+}
+
+
+
+.icon-box{
+   
+    letter-spacing: 10px;
+    font-size: 20px;
+    line-height: 1.8;
+    margin-top: 40px;
+}
+
+.flex-container> div:hover {
+    background-color: white;
+    border-radius: 10px;
+
+    box-shadow: 3px 3px 3px 3px #888888;
+    transition-duration: 0.2s;
+      
+    }
+
+
+  
+  

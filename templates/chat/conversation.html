@@ -1,0 +1,46 @@
+{% extends 'chat/chat_list.html' %} {% load static %} {% block inboxSection %}
+
+<div id="container">
+  <main>
+    <header>
+      <img src="{% static '/img/Ellipse 3.png' %}" class="h-10 w-10" alt="" />
+      <div>
+        <h2>{{group}}</h2>
+      </div>
+    </header>
+    <ul id="chat">
+      {% for m in messages %}
+      <li class="{% if m.sender == user %} me {% else %} you {% endif %}">
+        <div class="entete">
+          {% if m.sender == user %}
+          <h3>{{m.date}}</h3>
+          {% endif %}
+          <h2>{{ m.sender.first_name }} {{ m.sender.last_name }}</h2>
+          {% if m.sender != user %}
+          <h3>{{m.date}}</h3>
+          {% endif %}
+        </div>
+        <div class="message">
+          {{m.message}}{% if m.attachment%}
+          <div class="font-bold"><a class="underline underline-offset-2 text-teal-800" href="{{m.attachment.url}}"> Attachment </a></div>
+          {% endif %}
+        </div>
+      </li>
+      {% endfor %}
+    </ul>
+    <footer>
+      <form action="{% url 'group_chat' pk=group.id %}" method="POST" enctype="multipart/form-data">
+        {% csrf_token %}
+        <textarea name="message" placeholder="Type your message"></textarea>
+        <span class="flex">
+          <label class="rounded-full p-3 bg-gray-100 hover:bg-gray-200 cursor-pointer" for="file-upload"> {% include 'components/svg/attachment.html' with class="h-5 w-5" %} </label>
+          <input onchange="setfilename(this.value);" id="file-upload" style="display: none" type="file" name="attachment" />
+          <input class="rounded-md pr-3 bg-gray-100 hover:bg-gray-200 cursor-pointer" type="submit" value="Send" />
+          <span onclick="clearUpload();" class="rounded-full p-3 bg-gray-100 hover:bg-gray-200" id="uploadFile"></span>
+        </span>
+      </form>
+      <script src="{% static 'js/upload.js' %}"></script>
+    </footer>
+  </main>
+</div>
+{% endblock inboxSection %}

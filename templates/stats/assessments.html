@@ -1,0 +1,69 @@
+{% extends 'main.html' %} {% load static %} {% block head %}
+<title>Assessments | Educational Progress</title>
+<link rel="stylesheet" href="{% static '/css/dist/modal.css' %}" />
+<link rel="stylesheet" href="{% static '/css/dist/stats.css' %}" />
+{% endblock head %} {% block content %}
+
+<!-- Modal for New Assessment -->
+<div class="trimester-container">
+  <div class="trimester-control">
+    <center>
+      <button onclick="toggleVisibility('add-assessment-popup')" class="new-post-btn">Add Assessment</button>
+      <a href="{% url 'assessment-types' s_pk=semester c_pk=course %}" class="new-post-btn">Assessment Types</a>
+    </center>
+  </div>
+
+  <div id="add-assessment-popup" class="hide">
+    <div class="modal-content">
+      <button onclick="toggleVisibility('add-assessment-popup')" class="close">Close</button>
+      <form action="{% url 'assessments' s_pk=semester c_pk=course %}" method="POST">
+        {% csrf_token %}
+        <input type="hidden" name="course_id" value="{{course}}" />
+        <input type="text" class="input-box" name="assessment_name" placeholder="Assessment Name" />
+
+        <select name="assessment_type" id="assessment_type">
+          {% for item in assessment_types %}
+          <option value="{{item.id}}">{{item.name}}</option>
+          {% endfor %}
+        </select>
+
+        <input type="text" name="total_marks" placeholder="Total Marks" />
+        <input type="text" name="expected_marks" placeholder="Expected Marks" />
+        <input type="text" name="obtained_marks" placeholder="Obtained Marks" />
+        <input type="submit" name="add_assessment" value="Add" />
+      </form>
+    </div>
+  </div>
+</div>
+
+<!-- Graph START -->
+{% if chart.labels %} {% include 'components/graph/double_barchart.html' with data="{{chart}}" chartSize="700px" %} {% endif %}
+<!-- Graph END -->
+
+<!-- Assessments Card -->
+<div class="post-container">
+  <br />
+  {% if data %} {% for item in data %}
+  <div class="post-card">
+    <div class="post-text-container">
+      <div class="post-title-style">{{ item.name }}</div>
+      <span class="post-tag">{{item.assessment_type.name}}</span>
+      <div class="post-author">Expected: {{item.expected_marks}}/{{item.total_marks}}</div>
+      <div>
+        <p class="post-text-style">Obtained: {{item.obtained_marks}}/{{item.total_marks}}</p>
+      </div>
+      <form action="{% url 'assessments' s_pk=semester c_pk=course %}" method="POST">
+        {% csrf_token %}
+        <input type="hidden" name="assessment_id" value="{{item.id}}" />
+        <!-- Edit -->
+        <input class="post-cm-btn" onclick="toggleVisibility('edit-post-popup')" type="submit" value="Edit" />
+        <!-- Delete -->
+        <input class="post-cm-btn" style="margin-left: 0.25rem" onclick="return confirm('Are you sure you want to delete this item?')" type="submit" name="delete_assessment" value="Delete" />
+      </form>
+    </div>
+  </div>
+  {% endfor %} {% else %}
+  <center><b>No data found...</b></center>
+  {% endif %}
+</div>
+{% endblock content %}

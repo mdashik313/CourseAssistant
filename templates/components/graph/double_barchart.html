@@ -1,0 +1,50 @@
+{% load static %}
+<link rel="stylesheet" href="{% static '/css/dist/graph.css' %}" />
+
+<div class="chartCard">
+  <div class="chartBox" {% if chartSize%} style="width: {{chartSize}};" {%endif%}>
+    {% if title %}
+    <h1 class="center">{{title}}</h1>
+    {% endif %}
+    <canvas id="myChart"></canvas>
+  </div>
+</div>
+<script type="text/javascript" src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+<script>
+  // setup
+  const data = {
+    labels: [{% for val in chart.labels %} '{{ val }}', {% endfor %}],
+    datasets: [
+      {
+        label: "Total Marks",
+        data: [{% for val in chart.total %}{{ val }},{% endfor %}],
+        backgroundColor: ["rgba(255, 26, 104, 0.2)"],
+        borderColor: ["rgba(255, 26, 104, 1)"],
+        borderWidth: 1,
+      },
+      {
+        label: "Obtained Marks",
+        data: [{% for val in chart.obtained %}{{ val }},{% endfor %}],
+        backgroundColor: ["rgba(255, 159, 64, 0.2)"],
+        borderColor: ["rgba(255, 159, 64, 1)"],
+        borderWidth: 1,
+      }
+    ],
+  };
+
+  // config
+  const config = {
+    type: "bar",
+    data,
+    options: {
+      scales: {
+        y: {
+          beginAtZero: true,
+        },
+      },
+    },
+  };
+
+  // render init block
+  const myChart = new Chart(document.getElementById("myChart"), config);
+</script>

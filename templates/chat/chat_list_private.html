@@ -1,0 +1,100 @@
+{% extends 'main.html' %} {% load static %} {% block head %}
+<link rel="stylesheet" href="{% static '/css/dist/msg.css' %}?{% now 'dwmYHsu' %}" />
+{% endblock head %} {% block content %}
+<div class="flex overflow-hidden">
+  <div class="rounded-2xl shadow-md shadow-skin-shadow bg-skin-sidebar pt-2 overflow-y-scroll" style="scrollbar-width: none;">
+    <!-- Tab bar -->
+    <div role="tablist" aria-label="tabs" class="relative w-max mx-auto h-12 grid grid-cols-2 items-center px-[3px] rounded-full bg-gray-900/20 overflow-hidden shadow-2xl shadow-900/20 transition">
+      <div class="absolute indicator h-11 my-auto top-0 bottom-0 left-0 rounded-full bg-white shadow-md" style="width: 136.383px; left: 139.383px;"></div>
+      <button onclick="location.href='{% url 'chat' %}';" role="tab" aria-selected="true" aria-controls="panel-1" id="tab-1" tabindex="0" class="relative block h-10 px-6 tab rounded-full">
+        <span class="text-gray-800">Study Group</span>
+      </button>
+      <button role="tab" aria-selected="false" aria-controls="panel-2" id="tab-2" tabindex="-1" class="relative block h-10 px-6 tab rounded-full">
+        <span class="text-gray-800">People</span>
+      </button>
+    </div>
+
+
+    <div id="border-group" class="relative h-screen pt-4 pb-7 pl-3 grid justify-between space-y-2">
+      <!-- study Group -->
+      <div role="tabpanel" id="panel-1" class="tab-panel pr-4 transition duration-300 invisible opacity-0">
+        <!-- group 1 -->
+        {% for c, m, cnt in chat %}
+          <li class="border-b-[1px] border-slate-300 [&:last-child]:border-b-0 flex space-x-3 justify-between place-items-center pt-3 pb-3 cursor-pointer" onclick="location.href='{% url 'group_chat' pk=c.id %}';">
+            <img class="rounded-full w-8 h-8" src="{% static '/img/Ellipse 3.png' %}" alt="People image" />
+            <div class="">
+              <p class="{% if cnt > 0 %} font-bold {% endif %} text-sm text-skin-svg">{{c.name}}</p>
+              <p class="truncate w-36 text-sm text-skin-text font-light">{{m}}</p>
+            </div>
+            <div class="grid justify-items-end w-40 pr-4">
+              <div>
+                <p class="skin-sidebarspace-nowrap text-sm text-skin-text font-light">{{m.date}}</p>
+              </div>
+              {% if cnt > 0 %}
+              <div class="bg-skin-primary rounded-full w-5 h-5 flex justify-center items-center shadow-xl">
+                <p class="text-sm text-skin-muted">{{cnt}}</p>
+              </div>
+              {% endif %}
+            </div>
+          </li>
+        {% endfor %}
+      </div>
+
+      <!-- people -->
+      <div role="tabpanel" id="panel-2" class="absolute top-0 tab-panel p-6 transition duration-300 visible opacity-100">
+        <!-- people 1 -->
+        {% for u, m in private %}
+        <li class="border-b-[1px] border-slate-300 [&:last-child]:border-b-0 flex space-x-3 justify-between place-items-center mr-10 pt-3 pb-3 cursor-pointer" onclick="location.href='{% url 'private_chat' u.id %}';">
+          <img class="rounded-full w-8 h-8" src="{% if u.profile_picture %} {{u.profile_picture.url}}  {% else %} {% static 'img/avatar/avatar-male.png' %} {% endif %}" alt="People image" />
+          <div>
+            <p class="{% if cnt > 0 %} font-bold {% endif %} text-sm text-skin-svg">{{u.first_name}} {{u.last_name}}</p>
+            <p class="truncate w-36 text-sm text-skin-text font-light">{{m}}</p>
+          </div>
+          <div class="grid justify-items-end w-40">
+            <div>
+              <p class="skin-sidebarspace-nowrap text-sm text-skin-text font-light">{{m.date}}</p>
+            </div>
+            <div class="pl-10">
+              <img src="static/img/charm_tick-double.png" alt="" />
+            </div>
+          </div>
+        </li>
+        {% endfor %}
+      </div>
+    </div>
+  </div>
+
+    <script>
+      let tabs = document.querySelectorAll(".tab");
+      let indicator = document.querySelector(".indicator");
+      let panels = document.querySelectorAll(".tab-panel");
+
+
+      indicator.style.width = tab.getBoundingClientRect().width + "px";
+          indicator.style.left = tab.getBoundingClientRect().left - tab.parentElement.getBoundingClientRect().left + "px";
+
+      tabs.forEach((tab) => {
+        tab.addEventListener("click", () => {
+          let tabTarget = tab.getAttribute("aria-controls");
+          indicator.style.width = tabs[0].getBoundingClientRect().width + "px";
+      indicator.style.left = tabs[0].getBoundingClientRect().left - tabs[0].parentElement.getBoundingClientRect().left + "px";
+
+          panels.forEach((panel) => {
+            let panelId = panel.getAttribute("id");
+            if (tabTarget === panelId) {
+              panel.classList.remove("invisible", "opacity-0");
+              panel.classList.add("visible", "opacity-100");
+            } else {
+              panel.classList.add("invisible", "opacity-0");
+            }
+          });
+        });
+      });
+    </script>
+
+    {% block inboxSection %}
+    <div class="flex w-full items-center justify-center text-2xl bg-slate-300 -z-1">Please select a chat to view</div>
+    {% endblock inboxSection %}
+  </div>
+  {% endblock content %}
+</div>

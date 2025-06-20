@@ -1,0 +1,43 @@
+{% extends 'main.html' %}
+<!-- START BLOCK -->
+{% block content %}
+
+<style>
+  input {
+    width: 100%;
+    padding: 12px 20px;
+    margin: 8px 0;
+    display: inline-block;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    box-sizing: border-box;
+  }
+
+  .change-pass-btn {
+    width: 100%;
+    background-color: #4caf50;
+    color: white;
+    padding: 14px 20px;
+    margin: 8px 0;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+  }
+</style>
+
+<div class="flex flex-col bg-skin-sidebar w-auto m-4 rounded-3xl p-10 lg:p-32 shadow-md">
+  <form action="{% url 'edit_profile' %}" method="POST">
+    {% csrf_token %}
+    <div class="flex flex-col">
+      <label>First Name</label>
+      <input type="text" name="first_name" value="{{ user.first_name }}" />
+    </div>
+    <div class="flex flex-col">
+      <label>Last Name</label>
+      <input type="text" name="last_name" value="{{ user.last_name }}" />
+    </div>
+    <button class="change-pass-btn" type="submit">Save Changes</button>
+  </form>
+</div>
+<!-- END BLOCK -->
+{% endblock content %}

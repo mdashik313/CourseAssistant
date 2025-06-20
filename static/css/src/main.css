@@ -1,0 +1,203 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* My Classes */
+@layer base {
+  @font-face {
+    font-family: "Poppins", sans-serif;
+    src: url("https://fonts.googleapis.com/css2?family=Poppins:wght@300&display=swap");
+  }
+
+  :root {
+    --color-body: #e4e9f7;
+    --color-sidebar: #ffffff;
+    --color-primary: rgb(13 148 136);
+    --color-primary-muted: rgb(13 148 136 / 80%);
+    --color-primary-light: rgb(243 244 246);
+    --color-toggle: #dddddd;
+    --color-text: #707070;
+    --color-text-muted: #ffffff;
+    --color-svg: #222831;
+    --color-shadow: #93bfed;
+  }
+
+  .dark {
+    --color-body: #393e46;
+    --color-sidebar: #222831;
+    --color-primary: #2f8886;
+    --color-primary-muted: rgb(13 148 136 / 80%);
+    --color-primary-light: #28475c;
+    --color-toggle: #303841;
+    --color-text: #e7e7e7;
+    --color-text-muted: #ffffff;
+    --color-svg: #ffffff;
+    --color-shadow: #313d55;
+  }
+}
+
+body {
+  @apply bg-skin-body transition-all duration-300 ease-in-out;
+}
+
+.sidebar header {
+  @apply relative;
+}
+
+.sidebar {
+  @apply z-50 fixed mt-0 ml-0 h-full w-64 py-4 px-4 bg-skin-sidebar shadow-lg transition-all ease-in-out duration-500;
+}
+
+.sidebar.close {
+  @apply w-24;
+}
+
+.sidebar .menu-bar {
+  @apply h-[95%] flex flex-col justify-between;
+}
+
+.menu-bar .mode {
+  @apply relative bg-skin-primaryLight rounded-xl;
+}
+
+.menu-bar .mode i {
+  @apply absolute transition-all duration-300 ease-in-out;
+}
+
+.menu-bar .mode .moon-sun {
+  @apply h-12 w-14 flex items-center;
+}
+
+.menu-bar .mode i.sun {
+  @apply opacity-0;
+}
+
+.menu-bar .mode i.moon {
+  @apply opacity-100;
+}
+
+body.dark .menu-bar .mode i.sun {
+  @apply opacity-100;
+}
+
+body.dark .menu-bar .mode i.moon {
+  @apply opacity-0;
+}
+
+.menu-bar .mode .toggle-switch {
+  @apply absolute right-0 h-full min-w-[60px] flex items-center justify-center cursor-pointer;
+}
+
+.toggle-switch .switch {
+  @apply h-6 w-12 bg-skin-toggle relative rounded-3xl;
+}
+
+.switch::before {
+  content: "";
+  @apply top-1/2 left-1 transition-all duration-300 transform -translate-y-1/2 h-4 w-4 bg-skin-sidebar absolute rounded-full shadow-md;
+}
+
+body.dark .switch::before {
+  @apply left-7;
+}
+
+.menu-bar .mode .moon-sun {
+  @apply h-12 w-14 flex items-center;
+}
+
+.sidebar .image {
+  @apply min-w-min flex items-center justify-center;
+}
+
+.sidebar .text {
+  @apply text-base font-medium text-skin-text transition-all duration-300 ease-in-out whitespace-nowrap opacity-100;
+}
+
+.sidebar.close .text {
+  @apply opacity-0;
+}
+
+.sidebar .image-text svg {
+  @apply w-10 rounded-lg;
+}
+
+.sidebar header .image-text {
+  @apply flex items-center;
+}
+
+header .image-text header-text {
+  @apply flex flex-col;
+}
+
+.header-text .name {
+  @apply text-lg font-semibold px-2 font-poppins;
+}
+
+.sidebar header .toggle {
+  @apply absolute top-1/2 -right-6 transform -translate-y-1/2 h-6 w-6 bg-skin-primary rounded-full p-1 flex justify-center items-center text-skin-muted;
+}
+
+.sidebar.close header .toggle {
+  @apply transform -translate-y-1/2 rotate-180;
+}
+
+/* Items */
+.sidebar li {
+  @apply h-12 mt-3 list-none flex items-center;
+}
+
+.sidebar li .icon {
+  @apply text-lg min-w-[60px] flex items-center justify-center;
+}
+
+.sidebar li .icon,
+.sidebar li .text {
+  @apply text-skin-text transition-all ease-linear duration-200;
+}
+
+.sidebar .image-text svg {
+  @apply w-10 rounded-md;
+}
+
+.sidebar li a {
+  @apply no-underline rounded-xl w-full h-full items-center flex transition-all ease-linear duration-[400];
+}
+
+.sidebar li a:hover {
+  @apply bg-skin-primary;
+}
+
+.sidebar li a:hover .icon,
+.sidebar li a:hover .text,
+.sidebar li a:hover .svg {
+  @apply text-skin-muted;
+}
+
+/* .sidebar .menu {
+  @apply mt-9;
+} */
+
+/* SVG Icons */
+.svg {
+  @apply svg-no-color text-skin-svg;
+}
+
+.svg-no-color {
+  @apply w-6 h-6;
+}
+
+.logo {
+  @apply h-12 w-12 text-skin-primary;
+}
+
+.content {
+  @apply relative left-24 w-[calc(100%-96px)] bg-skin-body transition-all duration-500 ease-in-out;
+}
+
+.sidebar.close ~ .content {
+  @apply left-24 w-[calc(100%-96px)];
+}
+
+.pull-class {
+  @apply mr-4;
+}
