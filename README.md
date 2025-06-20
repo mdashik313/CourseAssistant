@@ -18,7 +18,7 @@
 &nbsp;
 &nbsp;
 ## 💠 **Introductions**
-  An allrounder helper for undergraduate student. <sub>(check screenshots)</sub>
+  An allrounder helper for undergraduate student.
     <br>
 &nbsp;
 &nbsp;
@@ -67,18 +67,7 @@
 </strong>Will be added later</strong>
 <br>
 <br> -->
-<!-- <a href="https://github.com/ehsan18t/CourseAssistant/releases"><img alt="GitHub release (latest by date including pre-releases)" src="https://img.shields.io/github/downloads-pre/ehsan18t/CourseAssistant/latest/total?color=red&label=Download%20latest&style=for-the-badge"></a> -->
 
-&nbsp;
-## 🖼️ **Screenshots**
-<strong><a href="#" target="_blank" rel="noopener">Click Here to View All Screenshots</a></strong>
-
-&nbsp;
-## ⁉️ **FAQ**
-<details>
-  <summary> ✔️ Will be added later.</summary>
-<br>
-  &nbsp; &nbsp; &nbsp;🅰️ Will be added later.
 
 </details>
 
