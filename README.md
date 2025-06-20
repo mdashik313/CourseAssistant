@@ -20,9 +20,6 @@
 ## 💠 **Introductions**
   An allrounder helper for undergraduate student. <sub>(check screenshots)</sub>
     <br>
-    <br>
-    <b> Note: </b>This project is the recreation and the improved version of the original https://github.com/ehsan18t/course-assistant project with django.
-
 &nbsp;
 &nbsp;
 ## 📜 **Features**
